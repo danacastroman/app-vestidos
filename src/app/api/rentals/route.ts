@@ -34,7 +34,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Item not available for selected dates" }, { status: 409 });
   }
 
-  const { rental, error } = createRental({
+  const { error } = createRental({
     itemId,
     start,
     end,

@@ -85,7 +85,7 @@ export default async function Page() {
                   <td className="py-2 pr-4">
                     {r.status === "active" ? (
                       <form
-                        onSubmit={async (e) => {
+                        onSubmit={async () => {
                           // no-op on server; keep for semantics
                         }}
                         action={`/api/admin/rentals/${r.id}/cancel`}

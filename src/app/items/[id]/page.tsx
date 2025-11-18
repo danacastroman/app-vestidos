@@ -6,15 +6,15 @@ import {getOrCreateCsrfToken} from "../../../../lib/CsrfSessionManagement";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import { Key } from "react";
 
-export default async function ItemDetail({params}: { params: { id: string } }) {
-    const id = Number(params.id);
-    const item = getItem(id);
+export default async function ItemDetail({params}: { params: Promise<{ id: string }> }) {
+    const { id } = await params;
+    const item = getItem(Number(id));
     if (!item) return notFound();
 
     // Generate CSRF token; cookie will be set if missing
     const csrf = await getOrCreateCsrfToken();
 
-    const booked = await getItemRentals(id);
+    const booked = await getItemRentals(Number(id));
 
     return (
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
@@ -43,7 +43,7 @@ export default async function ItemDetail({params}: { params: { id: string } }) {
 
           <div className="mt-8">
             <h2 className="font-semibold mb-3">Availability</h2>
-            <ItemCalendar itemId={id} />
+            <ItemCalendar itemId={Number(id)} />
             {booked.length > 0 && (
               <p className="mt-2 text-xs text-slate-500">Dates marked are already booked.</p>
             )}

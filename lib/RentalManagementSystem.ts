@@ -75,7 +75,7 @@ const items: Item[] = [
   },
 ];
 
-let rentals: Rental[] = [];
+const rentals: Rental[] = [];
 
 export function listItems(filters?: {
   q?: string;

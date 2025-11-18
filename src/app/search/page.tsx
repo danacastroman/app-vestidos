@@ -12,8 +12,8 @@ type SearchParams = {
   end?: string;
 };
 
-export default function Page({ searchParams }: { searchParams: SearchParams }) {
-  const { q = "", category = "", size = "", color = "", style = "" } = searchParams;
+export default async function Page({ searchParams }: { searchParams: Promise<SearchParams>; }) {
+  const { q = "", category = "", size = "", color = "", style = "" } = await searchParams;
   const items = listItems({
     q,
     category: category || undefined,
