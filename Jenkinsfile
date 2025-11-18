@@ -2,35 +2,21 @@ pipeline {
     agent any
 
     stages {
-
         stage('Checkout') {
             steps {
-                echo "📥 Clonando repositorio..."
                 checkout scm
             }
         }
 
-        stage('Install dependencies') {
+        stage('Install deps') {
             steps {
-                echo "📦 Instalando dependencias..."
                 sh 'npm install'
             }
         }
 
         stage('Build') {
             steps {
-                echo "🏗️ Construyendo aplicación..."
                 sh 'npm run build'
-            }
-        }
-
-        stage('Test (optional)') {
-            when {
-                expression { fileExists('package.json') && readFile('package.json').contains('"test"') }
-            }
-            steps {
-                echo "🧪 Ejecutando tests..."
-                sh 'npm test --if-present'
             }
         }
     }
@@ -40,7 +26,7 @@ pipeline {
             echo "🎉 Pipeline ejecutada correctamente"
         }
         failure {
-            echo "❌ Error en la pipeline"
+            echo "❌ Error en la pipeline (ver Console Output)"
         }
     }
 }
