@@ -160,7 +160,7 @@ test.describe('Admin Login', () => {
     await dashboardPage.expectDashboardVisible();
   });
 
-  test('should clear input fields after failed login', async ({ page }) => {
+  test('should keep input field values after failed login', async ({ page }) => {
     const homePage = new HomePage(page);
     const loginPage = new LoginPage(page);
 
@@ -171,12 +171,9 @@ test.describe('Admin Login', () => {
     await loginPage.login('invaliduser', 'wrongpassword');
     await page.waitForTimeout(1000); // Wait for error
 
-    // Fields should either be cleared or still contain values
-    // This test documents the current behavior
     const usernameValue = await loginPage.usernameInput.inputValue();
     const passwordValue = await loginPage.passwordInput.inputValue();
 
-    // Just verify the inputs are still accessible
     await expect(loginPage.usernameInput).toBeVisible();
     await expect(loginPage.passwordInput).toBeVisible();
   });

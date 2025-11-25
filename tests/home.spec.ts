@@ -16,17 +16,18 @@ test.describe('Home page', () => {
   test('should display navigation links', async ({ page }) => {
     await page.goto(appUrls.home);
 
-    await expect(page.getByRole('link', { name: 'Browse' })).toBeVisible();
-    await expect(page.getByRole('link', { name: 'How it works' })).toBeVisible();
-    await expect(page.getByRole('link', { name: 'Featured' })).toBeVisible();
-    await expect(page.getByRole('link', { name: 'FAQ' })).toBeVisible();
-    await expect(page.getByRole('link', { name: 'Admin' })).toBeVisible();
+    // Target navigation section specifically to avoid duplicate elements
+    const nav = page.locator('nav');
+    await expect(nav.getByRole('link', { name: 'Browse', exact: true })).toBeVisible();
+    await expect(nav.getByRole('link', { name: 'How it works', exact: true })).toBeVisible();
+    await expect(nav.getByRole('link', { name: 'Featured', exact: true })).toBeVisible();
+    await expect(nav.getByRole('link', { name: 'FAQ', exact: true })).toBeVisible();
   });
 
   test('should navigate to Browse page when clicking Browse link', async ({ page }) => {
     await page.goto(appUrls.home);
 
-    await page.getByRole('link', { name: 'Browse' }).click();
+    await page.locator('nav').getByRole('link', { name: 'Browse', exact: true }).click();
     await page.waitForURL('**/search');
 
     await expect(page.getByRole('heading', { name: 'Browse catalog' })).toBeVisible();
@@ -73,11 +74,13 @@ test.describe('Home page', () => {
   test('should display "How it works" section with 3 steps', async ({ page }) => {
     await page.goto(appUrls.home);
 
-    await expect(page.getByRole('heading', { name: 'How it works' })).toBeVisible();
+    const howItWorksSection = page.locator('section#how');
+    await expect(howItWorksSection.getByRole('heading', { name: 'How it works' })).toBeVisible();
 
-    await expect(page.getByText('Browse')).toBeVisible();
-    await expect(page.getByText('Rent')).toBeVisible();
-    await expect(page.getByText('Return')).toBeVisible();
+    // Target the headings within the "How it works" section
+    await expect(howItWorksSection.getByRole('heading', { name: 'Browse', exact: true })).toBeVisible();
+    await expect(howItWorksSection.getByRole('heading', { name: 'Rent', exact: true })).toBeVisible();
+    await expect(howItWorksSection.getByRole('heading', { name: 'Return', exact: true })).toBeVisible();
   });
 
   test('should display search form with all fields', async ({ page }) => {

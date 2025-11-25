@@ -7,6 +7,7 @@ export class AdminDashboardPage {
     readonly inventoryHeaderSection: Locator;
     readonly inventorySection: Locator;
     readonly inventoryHeading: Locator;
+    readonly rentalsHeaderSection: Locator;
     readonly rentalsSection: Locator;
     readonly rentalsHeading: Locator;
     readonly noRentalsMessage: Locator;
@@ -15,9 +16,10 @@ export class AdminDashboardPage {
         this.page = page;
         this.dashboardHeading = page.getByRole('heading', { name: 'Admin dashboard' });
         this.signOutButton = page.getByRole('button', { name: 'Sign out' });
-        this.inventoryHeaderSection = page.locator('#table-header');
+        this.inventoryHeaderSection = page.locator('#inventory-table-header');
         this.inventorySection = page.getByText('Inventory').locator('..');
         this.inventoryHeading = page.getByRole('heading', { name: 'Inventory' });
+        this.rentalsHeaderSection = page.locator('#rentals-table-header');
         this.rentalsSection = page.getByText('Scheduled rentals').locator('..');
         this.rentalsHeading = page.getByRole('heading', { name: 'Scheduled rentals' });
         this.noRentalsMessage = page.getByText('No rentals yet.');
@@ -52,7 +54,9 @@ export class AdminDashboardPage {
     async expectRentalsTableHeaders(headers: string[]) {
         const rentalsTable = this.page.locator('section').filter({ hasText: 'Scheduled rentals' });
         for (const header of headers) {
-            await expect(rentalsTable.getByRole('columnheader', { name: header })).toBeVisible();
+            await expect(
+                this.rentalsHeaderSection.getByRole('cell', { name: header, exact: true })
+            ).toBeVisible();
         }
     }
 
