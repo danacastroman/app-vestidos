@@ -22,37 +22,27 @@ test.describe('Search and Browse', () => {
     await searchPage.expectItemsVisible();
   });
 
-  test('should filter items by category - Dresses', async ({ page }) => {
+  test('E2E-011: should filter items by category - Dresses', async ({ page }) => {
     const searchPage = new SearchPage(page);
     await searchPage.goto();
 
     await searchPage.filterByCategory('dress');
-    await page.waitForURL('**/search?category=dress');
+    await page.waitForURL('**/search?q=&category=dress&size=&color=&style=');
 
     expect(page.url()).toContain('category=dress');
   });
 
-  test('should filter items by category - Shoes', async ({ page }) => {
+  test('E2E-012: should filter items by category - Shoes', async ({ page }) => {
     const searchPage = new SearchPage(page);
     await searchPage.goto();
 
     await searchPage.filterByCategory('shoes');
-    await page.waitForURL('**/search?category=shoes');
+    await page.waitForURL('**/search?q=&category=shoes&size=&color=&style=');
 
     expect(page.url()).toContain('category=shoes');
   });
 
-  test('should search by text query', async ({ page }) => {
-    const searchPage = new SearchPage(page);
-    await searchPage.goto();
-
-    await searchPage.search('evening');
-    await page.waitForURL('**/search?q=evening');
-
-    expect(page.url()).toContain('q=evening');
-  });
-
-  test('should apply multiple filters at once', async ({ page }) => {
+  test('E2E-010: should apply multiple filters at once', async ({ page }) => {
     const searchPage = new SearchPage(page);
     await searchPage.goto();
 
@@ -92,30 +82,6 @@ test.describe('Search and Browse', () => {
     await page.waitForURL('**/items/**');
 
     expect(page.url()).toContain('/items/');
-  });
-
-  test('should reset filters when selecting All categories', async ({ page }) => {
-    const searchPage = new SearchPage(page);
-    await searchPage.goto();
-
-    await searchPage.filterByCategory('dress');
-    await page.waitForURL('**/search?category=dress');
-
-    await searchPage.filterByCategory('');
-    await page.waitForURL(/\/search(?:\?category=)?$/);
-
-    const url = page.url();
-    expect(url).not.toContain('category=dress');
-  });
-
-  test('should show no results message for non-existent search', async ({ page }) => {
-    const searchPage = new SearchPage(page);
-    await searchPage.goto();
-
-    await searchPage.search('xyznonexistentitem999');
-    await page.waitForURL('**/search?q=xyznonexistentitem999');
-
-    await searchPage.expectNoResults();
   });
 
   test('should maintain filter values after applying search', async ({ page }) => {

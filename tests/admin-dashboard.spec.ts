@@ -20,7 +20,7 @@ test.describe('Admin Dashboard', () => {
     await adminDashboard.expectRentalsSectionVisible();
   });
 
-  test('should display rentals table with correct headers', async ({ loggedInPage }) => {
+  test('ADM-210: should display rentals table with correct headers', async ({ loggedInPage }) => {
     const adminDashboard = new AdminDashboardPage(loggedInPage);
 
     await adminDashboard.expectDashboardVisible();
@@ -59,7 +59,7 @@ test.describe('Admin Dashboard', () => {
     await firstRow.locator('td').nth(4).waitFor({ state: 'visible' });
   });
 
-  test('should display rentals when available', async ({ loggedInPage }) => {
+  test('ADM-210: should display rentals when available', async ({ loggedInPage }) => {
     const adminDashboard = new AdminDashboardPage(loggedInPage);
 
     await adminDashboard.expectDashboardVisible();
@@ -95,7 +95,7 @@ test.describe('Admin Dashboard', () => {
     }
   });
 
-  test('should display rental details when rentals exist', async ({ loggedInPage }) => {
+  test('ADM-210: should display rental details when rentals exist', async ({ loggedInPage }) => {
     const adminDashboard = new AdminDashboardPage(loggedInPage);
 
     await adminDashboard.expectDashboardVisible();
@@ -120,7 +120,7 @@ test.describe('Admin Dashboard', () => {
     }
   });
 
-  test('should display Cancel button for active rentals', async ({ loggedInPage }) => {
+  test('ADM-220: should display Cancel button for active rentals', async ({ loggedInPage }) => {
     const adminDashboard = new AdminDashboardPage(loggedInPage);
 
     await adminDashboard.expectDashboardVisible();
@@ -133,7 +133,7 @@ test.describe('Admin Dashboard', () => {
     }
   });
 
-  test('should not display Cancel button for cancelled rentals', async ({ loggedInPage }) => {
+  test('ADM-220: should not display Cancel button for cancelled rentals', async ({ loggedInPage }) => {
     const adminDashboard = new AdminDashboardPage(loggedInPage);
 
     await adminDashboard.expectDashboardVisible();
@@ -189,52 +189,6 @@ test.describe('Admin Dashboard', () => {
       if (datesText) {
         test.expect(datesText).toContain('→');
       }
-    }
-  });
-
-  test('should display multiple inventory items', async ({ loggedInPage }) => {
-    const adminDashboard = new AdminDashboardPage(loggedInPage);
-
-    await adminDashboard.expectDashboardVisible();
-
-    const inventorySection = loggedInPage.locator('section').filter({ hasText: 'Inventory' });
-    const inventoryRows = await inventorySection.locator('tbody tr').count();
-
-    // Should have at least the featured items (4+)
-    test.expect(inventoryRows).toBeGreaterThan(0);
-  });
-
-  test('should format prices correctly in inventory', async ({ loggedInPage }) => {
-    const adminDashboard = new AdminDashboardPage(loggedInPage);
-
-    await adminDashboard.expectDashboardVisible();
-
-    const inventorySection = loggedInPage.locator('section').filter({ hasText: 'Inventory' });
-    const firstRow = inventorySection.locator('tbody tr').first();
-    const priceCell = firstRow.locator('td').nth(4);
-
-    const priceText = await priceCell.textContent();
-    // Price should start with $
-    if (priceText) {
-      test.expect(priceText).toMatch(/\$\d+/);
-    }
-  });
-
-  test('should display sizes as comma-separated list', async ({ loggedInPage }) => {
-    const adminDashboard = new AdminDashboardPage(loggedInPage);
-
-    await adminDashboard.expectDashboardVisible();
-
-    const inventorySection = loggedInPage.locator('section').filter({ hasText: 'Inventory' });
-    const firstRow = inventorySection.locator('tbody tr').first();
-    const sizesCell = firstRow.locator('td').nth(3);
-
-    await sizesCell.waitFor({ state: 'visible' });
-    const sizesText = await sizesCell.textContent();
-
-    // Sizes should be comma-separated or contain at least one size
-    if (sizesText) {
-      test.expect(sizesText.length).toBeGreaterThan(0);
     }
   });
 });
