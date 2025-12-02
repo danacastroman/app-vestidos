@@ -75,7 +75,35 @@ const items: Item[] = [
   },
 ];
 
-const rentals: Rental[] = [];
+const rentals: Rental[] = [
+  {
+    id: "1",
+    itemId: 1,
+    start: "2025-12-01",
+    end: "2025-12-05",
+    customer: { name: "Ana Martinez", email: "ana.martinez@example.com", phone: "+1234567890" },
+    createdAt: "2025-11-20T10:00:00.000Z",
+    status: "active",
+  },
+  {
+    id: "2",
+    itemId: 2,
+    start: "2025-11-15",
+    end: "2025-11-18",
+    customer: { name: "Carlos Rodriguez", email: "carlos.r@example.com", phone: "+1234567891" },
+    createdAt: "2025-11-10T14:30:00.000Z",
+    status: "canceled",
+  },
+  {
+    id: "3",
+    itemId: 3,
+    start: "2025-12-10",
+    end: "2025-12-15",
+    customer: { name: "Maria Lopez", email: "maria.lopez@example.com", phone: "+1234567892" },
+    createdAt: "2025-11-22T09:15:00.000Z",
+    status: "active",
+  },
+];
 
 export function listItems(filters?: {
   q?: string;

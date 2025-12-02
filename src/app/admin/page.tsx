@@ -31,7 +31,7 @@ export default async function Page() {
         <p className="text-sm text-slate-600 dark:text-slate-400">Add/edit/delete can be wired to a database later.</p>
         <div className="mt-3 overflow-x-auto">
           <table className="min-w-full text-sm">
-            <thead>
+            <thead id="inventory-table-header">
               <tr className="text-left">
                 <th className="py-2 pr-4">ID</th>
                 <th className="py-2 pr-4">Name</th>
@@ -59,7 +59,7 @@ export default async function Page() {
         <h2 className="font-semibold">Scheduled rentals</h2>
         <div className="mt-3 overflow-x-auto">
           <table className="min-w-full text-sm">
-            <thead>
+            <thead id="rentals-table-header">
               <tr className="text-left">
                 <th className="py-2 pr-4">Rental ID</th>
                 <th className="py-2 pr-4">Item</th>
@@ -85,9 +85,10 @@ export default async function Page() {
                   <td className="py-2 pr-4">
                     {r.status === "active" ? (
                       <form
-                        onSubmit={async () => {
-                          // no-op on server; keep for semantics
-                        }}
+                        // TODO: Add interactivity with client component
+                        // onSubmit={async () => {
+                        //   // no-op on server; keep for semantics
+                        // }}
                         action={`/api/admin/rentals/${r.id}/cancel`}
                         method="POST"
                       >
